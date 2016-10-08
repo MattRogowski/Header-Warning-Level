@@ -2,8 +2,8 @@ Name: Header Warning Level
 Description: Shows a user's warning level in the welcomeblock.
 Website: https://github.com/MattRogowski/Header-Warning-Level
 Author: Matt Rogowski
-Authorsite: http://mattrogowski.co.uk
-Version: 1.8
+Authorsite: https://matt.rogow.ski
+Version: 1.8.0
 Compatibility: 1.6.x, 1.8.x
 Files: 1
 Templates added: 1
@@ -29,7 +29,7 @@ Change Log:
 01/09/10 - v1.0 -> v1.6 -> General cleanup. 1.6 compatible only.
 25/08/14 - v1.6 -> v1.8 -> MyBB 1.8 compatible. To upgrade, deactivate, reupload ./inc/plugins/headerwarnlevel.php, activate.
 
-Copyright 2014 Matthew Rogowski
+Copyright 2016 Matthew Rogowski
 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
