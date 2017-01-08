@@ -3,7 +3,7 @@ Description: Shows a user's warning level in the welcomeblock.
 Website: https://github.com/MattRogowski/Header-Warning-Level
 Author: Matt Rogowski
 Authorsite: https://matt.rogow.ski
-Version: 1.8.0
+Version: 1.8.1
 Compatibility: 1.6.x, 1.8.x
 Files: 1
 Templates added: 1
@@ -28,8 +28,9 @@ Change Log:
 10/05/09 - v0.2 -> v1.0 -> 1 setting added. Deactivate, reupload ./inc/plugins/headerwarnlevel.php, activate, configure settings.
 01/09/10 - v1.0 -> v1.6 -> General cleanup. 1.6 compatible only.
 25/08/14 - v1.6 -> v1.8 -> MyBB 1.8 compatible. To upgrade, deactivate, reupload ./inc/plugins/headerwarnlevel.php, activate.
+08/01/17 - v1.8.0 -> v1.8.1 -> Templates now cached. Code refactor. Dropped compatibility with MyBB 1.6. To upgrade, reupload ./inc/plugins/headerwarnlevel.php.
 
-Copyright 2016 Matthew Rogowski
+Copyright 2017 Matthew Rogowski
 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

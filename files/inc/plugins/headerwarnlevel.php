@@ -1,8 +1,8 @@
 <?php
 /**
- * Header Warning Level 1.8.0
+ * Header Warning Level 1.8.1
 
- * Copyright 2016 Matthew Rogowski
+ * Copyright 2017 Matthew Rogowski
 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,15 @@ if(!defined("IN_MYBB"))
 	die("Direct initialization of this file is not allowed.<br /><br />Please make sure IN_MYBB is defined.");
 }
 
-$plugins->add_hook("global_start", "headerwarnlevel");
+$plugins->add_hook("global_intermediate", "headerwarnlevel");
+
+global $templatelist;
+
+if($templatelist)
+{
+	$templatelist .= ',';
+}
+$templatelist .= 'headerwarnlevel,postbit_warninglevel_formatted';
 
 function headerwarnlevel_info()
 {
@@ -32,8 +40,8 @@ function headerwarnlevel_info()
 		"website" => "https://github.com/MattRogowski/Header-Warning-Level",
 		"author" => "Matt Rogowski",
 		"authorsite" => "https://matt.rogow.ski",
-		"version" => "1.8.0",
-		"compatibility" => "16*,18*",
+		"version" => "1.8.1",
+		"compatibility" => "18*",
 		"codename" => "headerwarnlevel"
 	);
 }
@@ -41,11 +49,11 @@ function headerwarnlevel_info()
 function headerwarnlevel_activate()
 {
 	global $mybb, $db;
-	
+
 	require_once MYBB_ROOT . "inc/adminfunctions_templates.php";
-	
+
 	headerwarnlevel_deactivate();
-	
+
 	$settings_group = array(
 		"name" => "headerwarnlevel",
 		"title" => "Header Warning Level Settings",
@@ -55,7 +63,7 @@ function headerwarnlevel_activate()
 	);
 	$db->insert_query("settinggroups", $settings_group);
 	$gid = $db->insert_id();
-	
+
 	$settings = array();
 	$settings[] = array(
 		"name" => "headerwarnlevel",
@@ -100,9 +108,9 @@ function headerwarnlevel_activate()
 		$db->insert_query("settings", $insert);
 		$i++;
 	}
-	
+
 	rebuild_settings();
-	
+
 	$templates = array();
 	$templates[] = array(
 		"title" => "headerwarnlevel",
@@ -119,7 +127,7 @@ function headerwarnlevel_activate()
 		);
 		$db->insert_query("templates", $insert);
 	}
-	
+
 	if(substr($mybb->version, 0, 3) == '1.6')
 	{
 		find_replace_templatesets("header_welcomeblock_member", "#".preg_quote('{$lang->welcome_open_buddy_list}</a>')."#i", '{$lang->welcome_open_buddy_list}</a>{$headerwarnlevel}');
@@ -133,11 +141,11 @@ function headerwarnlevel_activate()
 function headerwarnlevel_deactivate()
 {
 	global $mybb, $db;
-	
+
 	require_once MYBB_ROOT . "inc/adminfunctions_templates.php";
-	
+
 	$db->delete_query("settinggroups", "name = 'headerwarnlevel'");
-	
+
 	$settings = array(
 		"headerwarnlevel",
 		"headerwarnlevelcutoff",
@@ -146,15 +154,15 @@ function headerwarnlevel_deactivate()
 	);
 	$settings = "'" . implode("','", $settings) . "'";
 	$db->delete_query("settings", "name IN ({$settings})");
-	
+
 	rebuild_settings();
-	
+
 	$templates = array(
 		"headerwarnlevel"
 	);
 	$templates = "'" . implode("','", $templates) . "'";
 	$db->delete_query("templates", "title IN ({$templates})");
-	
+
 	if(substr($mybb->version, 0, 3) == '1.6')
 	{
 		find_replace_templatesets("header_welcomeblock_member", "#".preg_quote('{$headerwarnlevel}')."#i", '', 0);
@@ -168,21 +176,20 @@ function headerwarnlevel_deactivate()
 function headerwarnlevel()
 {
 	global $mybb, $db, $lang, $templates, $headerwarnlevel;
-	
-	$warningpoints = round($mybb->user['warningpoints'] / $mybb->settings['maxwarningpoints'] * 100);
-	if($warningpoints > 100)
-	{
-		$warningpoints = 100;
-	}
-	$warninglevel = get_colored_warning_level($warningpoints);
-	
+
 	$headerwarnlevelgroups = explode(",", str_replace(" ", "", $mybb->settings['headerwarnlevelgroups']));
-	
 	if($mybb->settings['headerwarnlevel'] == 1 && in_array($mybb->user['usergroup'], $headerwarnlevelgroups))
 	{
+		$warningpoints = round($mybb->user['warningpoints'] / $mybb->settings['maxwarningpoints'] * 100);
+		if($warningpoints > 100)
+		{
+			$warningpoints = 100;
+		}
+		
 		// either they've got no warning and it's been set to show with 0%, or they've got warning and it's more than or equal to the limit
 		if(($warningpoints == 0 && $mybb->settings['headerwarnlevelshowifnone'] == 1) || ($warningpoints >= $mybb->settings['headerwarnlevelcutoff'] && $warningpoints != 0))
 		{
+			$warninglevel = get_colored_warning_level($warningpoints);
 			eval("\$headerwarnlevel = \"".$templates->get('headerwarnlevel')."\";");
 		}
 	}
