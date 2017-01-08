@@ -4,7 +4,7 @@ Website: https://github.com/MattRogowski/Header-Warning-Level
 Author: Matt Rogowski
 Authorsite: https://matt.rogow.ski
 Version: 1.8.1
-Compatibility: 1.6.x, 1.8.x
+Compatibility: 1.8.x
 Files: 1
 Templates added: 1
 Template changes: 1
